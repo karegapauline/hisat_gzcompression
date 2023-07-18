@@ -3,15 +3,18 @@ process COMPRESS {
     publishDir params.outdir
 	
     input:
-    tuple val(name), path(reads)
+    tuple val(name), path(trimmed_reads)
 	
     output:
-    tuple val(name), path("${name}*.fastqsanger.gz"), emit: sample_compressed
+    tuple val(name), path("${name}_*.trimmed.fastqsanger.gz"), emit: sample2_compressed
 	
     script:
     """
-    gzip $reads 
+    gzip -c ${trimmed_reads[0]} > ${name}_1.trimmed.fastqsanger.gz
+    gzip -c ${trimmed_reads[1]} > ${name}_2.trimmed.fastqsanger.gz
+    
     
     """
     
    }
+   

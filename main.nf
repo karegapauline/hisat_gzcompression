@@ -3,6 +3,7 @@ nextflow.enable.dsl = 2
 
 
 include { COMPRESS } from './modules/compress.nf'
+include {DECOMPRESS } from './modules/decompress.nf'
 include { FASTP } from './modules/fastp.nf'
 include { CHECK_STRANDNESS } from './modules/check_strandness.nf'
 include { HISAT2_INDEX_REFERENCE ; HISAT2_INDEX_REFERENCE_MINIMAL ; HISAT2_ALIGN ; EXTRACT_SPLICE_SITES ; EXTRACT_EXONS } from './modules/hisat2.nf'
@@ -24,8 +25,9 @@ params.outdir = 'results'
 workflow {
     read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists: true ) 
     compressed_reads_ch = COMPRESS(read_pairs_ch)
-    CHECK_STRANDNESS( compressed_reads_ch, params.reference_cdna, params.reference_annotation_ensembl )
-    FASTP( compressed_reads_ch )
+    decompressed_reads_ch = DECOMPRESS(compressed_reads_ch)
+    CHECK_STRANDNESS( read_pairs_ch, params.reference_cdna, params.reference_annotation_ensembl )
+    FASTP( read_pairs_ch )
     if (params.mode == "minimum_genome_build") {
         HISAT2_INDEX_REFERENCE_MINIMAL( params.reference_genome )
         HISAT2_ALIGN( compressed_reads_ch, HISAT2_INDEX_REFERENCE_MINIMAL.out, CHECK_STRANDNESS.out.first() )}
