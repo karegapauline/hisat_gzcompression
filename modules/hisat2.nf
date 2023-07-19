@@ -66,7 +66,7 @@ process HISAT2_ALIGN {
     publishDir params.outdir
  
     input:
-    tuple val(sample_name), path(reads)
+    tuple val(sample_name), path(decompressed_trimmed_reads)
     tuple path(reference), path(index)
     env STRANDNESS
 
@@ -77,15 +77,15 @@ process HISAT2_ALIGN {
     '''
     if [[ ($STRANDNESS == "firststrand") ]]; then
     
-        hisat2 -x !{reference.baseName} -1 !{reads[0]} -2 !{reads[1]} --new-summary --summary-file !{sample_name}_summary.log --thread !{params.threads} --dta-cufflinks --rna-strandness FR -S !{sample_name}.sam
+        hisat2 -x !{reference.baseName} -1 !{decompressed_trimmed_reads[0]} -2 !{decompressed_trimmed_reads[1]} --new-summary --summary-file !{sample_name}_summary.log --thread !{params.threads} --dta-cufflinks --rna-strandness FR -S !{sample_name}.sam
 
     elif [[ ($STRANDNESS == "secondstrand") ]]; then
     
-        hisat2 -x !{reference.baseName} -1 !{reads[0]} -2 !{reads[1]} --new-summary --summary-file !{sample_name}_summary.log --thread !{params.threads} --dta-cufflinks --rna-strandness RF -S !{sample_name}.sam
+        hisat2 -x !{reference.baseName} -1 !{decompressed_trimmed_reads[0]} -2 !{decompressed_trimmed_reads[1]} --new-summary --summary-file !{sample_name}_summary.log --thread !{params.threads} --dta-cufflinks --rna-strandness RF -S !{sample_name}.sam
 
     elif [[ $STRANDNESS == "unstranded" ]]; then
        
-        hisat2 -x !{reference.baseName} -1 !{reads[0]} -2 !{reads[1]} --new-summary --summary-file !{sample_name}_summary.log --thread !{params.threads} --dta-cufflinks -S !{sample_name}.sam
+        hisat2 -x !{reference.baseName} -1 !{decompressed_trimmed_reads[0]} -2 !{decompressed_trimmed_reads[1]} --new-summary --summary-file !{sample_name}_summary.log --thread !{params.threads} --dta-cufflinks -S !{sample_name}.sam
     else  
 		echo $STRANDNESS > error_strandness.txt
 		echo "strandness cannot be determined" >> error_strandness.txt
