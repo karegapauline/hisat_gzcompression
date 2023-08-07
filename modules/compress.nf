@@ -11,7 +11,7 @@ process COMPRESS {
     script:
     """
     gzip ${trimmed_reads[0]} > ${name}_1.trimmed.fastqsanger.gz
-    gzip ${trimmed_reads[1]} > ${name}_2.trimmed.fastqsanger.gz
+   # gzip ${trimmed_reads[1]} > ${name}_2.trimmed.fastqsanger.gz
     
     
     """
