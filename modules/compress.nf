@@ -6,14 +6,12 @@ process COMPRESS {
     tuple val(name), path(trimmed_reads)
 	
     output:
-    tuple val(name), path("${name}*.trimmed.fastqsanger.gz"), emit: sample2_compressed
+    tuple val(name), path("${name}*.trimmed.fastq.gz"), emit: sample2_compressed
 	
     script:
     """
     gzip ${trimmed_reads[0]} 
     gzip ${trimmed_reads[1]} 
-    
-    
     """
     
    }
