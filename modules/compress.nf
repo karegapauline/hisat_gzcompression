@@ -10,9 +10,9 @@ process COMPRESS {
 	
     script:
     """
-    gzip ${trimmed_reads[0]} 
-    gzip ${trimmed_reads[1]} 
+    gzip ${trimmed_reads[0]} ${trimmed_reads[1]}
+     
     """
     
    }
-   
+   // gzip ${trimmed_reads[1]}
