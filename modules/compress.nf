@@ -11,8 +11,8 @@ process COMPRESS {
     script:
     // real_zip = "readlink ${trimmed_reads}"
     """
-    gzip \$(${trimmed_reads[0]})
-    gzip \$(${trimmed_reads[1]})
+    gzip -f \$(${trimmed_reads[0]})
+    gzip -f \$(${trimmed_reads[1]})
      
     """
     
