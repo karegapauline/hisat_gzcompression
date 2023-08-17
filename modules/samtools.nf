@@ -30,3 +30,5 @@ process SAMTOOLS_MERGE {
     samtools merge alignement_gathered.bam ${out_bam}
     """
 }
+
+//     samtools view -T ${reference_genome} -bC ${sam_file} -o ${sam_file}.cram
