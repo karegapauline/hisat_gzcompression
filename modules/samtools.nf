@@ -6,11 +6,11 @@ process SAMTOOLS {
     tuple val(sample_name), path(sam_file)
     
     output:
-    path("${sam_file}.sorted.bam"), emit: sample_bam 
+    path("${sam_file}.sorted.cram"), emit: sample_bam 
     
     script:
     """
-    samtools view -bS ${sam_file} | samtools sort -o ${sam_file}.sorted.bam -T tmp  
+    samtools view -T ${reference_genome} -bC ${sam_file} -o ${sam_file}.cram
     """
     
 }
