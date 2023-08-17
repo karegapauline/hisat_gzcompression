@@ -6,7 +6,7 @@ process SAMTOOLS {
     tuple val(sample_name), path(sam_file)
     
     output:
-    path("${sam_file}.sorted.cram"), emit: sample_bam 
+    path("${sam_file}.sorted.bam"), emit: sample_bam 
     
     script:
     """
