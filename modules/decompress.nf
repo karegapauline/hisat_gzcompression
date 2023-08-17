@@ -6,7 +6,7 @@ process DECOMPRESS {
     tuple val(name), path(reads)
 	
     output:
-    tuple val(name), path("${name}*fastqsanger"), emit: decompressed_reads
+    tuple val(name), path("${name}*fastq"), emit: decompressed_reads
 	
     script:
     """
