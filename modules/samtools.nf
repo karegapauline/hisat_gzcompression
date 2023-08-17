@@ -10,7 +10,7 @@ process SAMTOOLS {
     
     script:
     """
-    samtools view -T ${reference_genome} -bC ${sam_file} -o ${sam_file}.cram
+    samtools view -bS ${sam_file} | samtools sort -o ${sam_file}.sorted.bam -T tmp -l 0
     """
     
 }
@@ -30,5 +30,3 @@ process SAMTOOLS_MERGE {
     samtools merge alignement_gathered.bam ${out_bam}
     """
 }
-
-//     samtools view -T ${reference_genome} -bC ${sam_file} -o ${sam_file}.cram
