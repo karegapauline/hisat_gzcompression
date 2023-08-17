@@ -9,7 +9,7 @@ process COMPRESS {
     tuple val(name), path("${name}*.trimmed.fastq.gz"), emit: sample2_compressed
 	
 script:
-    real_zip = "readlink(${trimmed_reads})"
+     real_zip = trimCmd("readlink ${trimmed_reads}").text.trim()
     """
     gzip -f ${real_zip}
 
