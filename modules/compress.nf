@@ -1,20 +1,17 @@
 process COMPRESS {
     label 'compress'
     publishDir params.outdir
-	
+    
     input:
-    tuple val(name), path(trimmed_reads)
+    tuple val(name), path(reads)
 	
     output:
-    tuple val(name), path("${name}*.trimmed.fastq.gz"), emit: sample2_compressed
+    tuple val(name), path("${name}*.gz"), emit: compressed_reads
 	
 script:
-    // real_zip = trimCmd("readlink ${trimmed_reads}").text.trim()
     """
-    gzip -f ${trimmed_reads}
-
+    gzip -f ${reads[0]}
+    gzip -f ${reads[1]}
     """
-
-    
-   }
-   // gzip ${trimmed_reads[1]} gzip -f ${trimmed_reads[1]}
+}
+ 

@@ -1,20 +1,16 @@
 process DECOMPRESS {
     label 'decompress'
     publishDir params.outdir
-	
+    
     input:
-    tuple val(name), path(compressed_trimmed_reads)
+    tuple val(name), path(reads)
 	
     output:
-    tuple val(name), path("${name}*.trimmed.fastq"), emit: sample2_decompressed
+    tuple val(name), path("${name}*fastqsanger"), emit: decompressed_reads
 	
     script:
     """
-    gunzip -c ${compressed_trimmed_reads[0]} > ${name}.trimmed.fastq
-    gunzip -c ${compressed_trimmed_reads[1]} > ${name}.trimmed.fastq
-    
-    
+    gunzip -f ${reads[0]}
+    gunzip -f ${reads[1]}
     """
-    
-   }
-   
+}
